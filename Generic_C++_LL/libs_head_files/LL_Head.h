@@ -1,11 +1,9 @@
 #ifndef HEADER_H
 #define HEADER_H
-
-// Include required standard libraries
 #include <iostream>
 using namespace std;
 
-// ========== Node Class Declaration ==========
+//  Node Class Declaration
 template <typename V>
 class Node
 {
@@ -16,17 +14,19 @@ public:
     Node(V value); // Constructor declaration
 };
 
-// ========== Linked List Class Declaration ==========
+//  Linked List Class Declaration
 template <typename V>
-class LL
+class link
 {
 private:
     Node<V> *head;
     int size;
 
 public:
-    LL();  // Constructor
-    ~LL(); // Destructor
+    link();                                   // Constructor
+    link(const link<V> &other);               // Copy Constructor
+    link<V> &operator=(const link<V> &other); // Assignment Operator Overload
+    ~link();                                  // Destructor
 
     void ins_beg(V value);            // Insert at beginning
     void ins_mid(V value, int place); // Insert at given index
@@ -36,8 +36,9 @@ public:
     void del_mid(V value); // Delete by value
     void del_end();        // Delete from end
 
-    void dis();    // Display list
-    int getsize(); // Get size
+    void dis();      // Display list
+    int getsize();   // Get size
+    V get_beg_val(); // Get Beg_Val
 };
 
 #include "LL_Source.cpp"

@@ -116,16 +116,28 @@ int my_strstr_index(const char *haystack, const char *needle)
         }
         if (needle[j] == '\0')
         {
-            while (haystack[i] != ':')
+            // Found keyword — now look for delimiter
+            while (haystack[i] != '\0')
             {
+                // Check for arrow format
+                if (haystack[i] == '-' && haystack[i + 1] == '>')
+                {
+                    return i + 2; // Position right after "->"
+                }
+                // Check for colon format
+                if (haystack[i] == ':')
+                {
+                    return i + 1; // Position right after ":"
+                }
                 i++;
             }
-            return i + 1;
+            return -1; // Found keyword but no valid delimiter
         }
         i++;
     }
-    return -1;
+    return -1; // Keyword not found
 }
+
 void reverse_inplace(char *s)
 {
     int size = size_tmy_strlen(s);
@@ -176,7 +188,8 @@ void tokenizer(const char *str)
             token[j++] = str[i++];
         }
         token[j] = '\0';
-        cout << token << "\n";
+        cout << "\n\n\n"
+             << token << "\n\n\n";
         if (str[i] == ',')
         {
             i++;
@@ -191,7 +204,7 @@ char *trail_spaces(char *a)
     char *b = new char[len + 1];
     while (a[i] != '\0')
     {
-        if ((a[i] == ' ' && a[i + 1] == ' ') || a[i] == '\n' || a[i] == '\t')
+        if ((a[i] == ' ' && a[i + 1] != '\0' && a[i + 1] == ' ') || a[i] == '\n' || a[i] == '\t')
         {
             i++;
             continue;
@@ -281,4 +294,19 @@ char *replace_key_value(char *str, const char *obj)
     }
     new_str[i + 1] = '\0';
     return new_str;
+}
+int my_strncmp(const char *s1, const char *s2, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (s1[i] == '\0' && s2[i] == '\0')
+        {
+            return 0;
+        }
+        if (s1[i] != s2[i])
+        {
+            return (unsigned char)s1[i] - (unsigned char)s2[i];
+        }
+    }
+    return 0;
 }

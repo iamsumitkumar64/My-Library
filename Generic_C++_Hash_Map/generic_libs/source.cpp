@@ -1,7 +1,6 @@
 #include "header.h"
-// #include <functional>
 
-// ===================== Node Constructor =====================
+//  Node Constructor
 template <typename V, typename K>
 Node<V, K>::Node(V data, K key)
 {
@@ -10,14 +9,14 @@ Node<V, K>::Node(V data, K key)
     this->next = nullptr;
 }
 
-// ===================== LL Constructor =====================
+//  LL Constructor
 template <typename V, typename K>
 LL<V, K>::LL()
 {
     head = nullptr;
 }
 
-// ===================== LL Destructor =====================
+//  LL Destructor
 template <typename V, typename K>
 LL<V, K>::~LL()
 {
@@ -25,14 +24,14 @@ LL<V, K>::~LL()
     cout << "Linked List Destructor Called\n";
 }
 
-// ===================== LL Methods =====================
+//  LL Methods
 template <typename V, typename K>
-bool LL<V, K>::LinkedExists(K key)
+bool LL<V, K>::LinkedExists(K key, V value)
 {
     Node<V, K> *temp = head;
     while (temp)
     {
-        if (temp->key == key)
+        if (temp->key == key && temp->data == value)
             return true;
         temp = temp->next;
     }
@@ -42,23 +41,16 @@ bool LL<V, K>::LinkedExists(K key)
 template <typename V, typename K>
 void LL<V, K>::Linkedinsert(V data, K key)
 {
-    if (LinkedExists(key))
+    if (LinkedExists(key, data))
     {
-        bool isUpdate = setNode(key, data);
-        if (isUpdate)
-        {
-            cout << "\tKey exists. Value updated.\n";
-        }
-        else
-        {
-            cout << "\tKey exists. Value not updated.\n";
-        }
+        cout << "\tKey exists.\n";
         return;
     }
     Node<V, K> *newNode = new Node<V, K>(data, key);
     newNode->next = head;
     head = newNode;
 }
+
 template <typename V, typename K>
 void LL<V, K>::Linkedremove(V data, K key)
 {
@@ -67,7 +59,7 @@ void LL<V, K>::Linkedremove(V data, K key)
         cout << "\tNo List Exists Here!\n";
         return;
     }
-    if (!LinkedExists(key))
+    if (!LinkedExists(key, data))
     {
         cout << "\tKey Not Exists\n";
         return;
@@ -182,6 +174,7 @@ Node<V, K> *LL<V, K>::getPreviousNode(K key)
 
     return current ? prev : nullptr;
 }
+
 template <typename V, typename K>
 bool LL<V, K>::setNode(K key, V newValue)
 {
@@ -198,7 +191,7 @@ bool LL<V, K>::setNode(K key, V newValue)
     return false;
 }
 
-// ===================== Hash_map Constructor =====================
+//  Hash_map Constructor
 template <typename V, typename K>
 Hash_map<V, K>::Hash_map(int size)
 {
@@ -211,7 +204,7 @@ Hash_map<V, K>::Hash_map(int size)
     lists = new LL<V, K>[size];
 }
 
-// ===================== Hash_map Copy Constructor =====================
+//  Hash_map Copy Constructor
 template <typename V, typename K>
 Hash_map<V, K>::Hash_map(const Hash_map &other)
 {
@@ -228,7 +221,7 @@ Hash_map<V, K>::Hash_map(const Hash_map &other)
     }
 }
 
-// ===================== Hash_map Destructor =====================
+//  Hash_map Destructor
 template <typename V, typename K>
 Hash_map<V, K>::~Hash_map()
 {
@@ -237,7 +230,7 @@ Hash_map<V, K>::~Hash_map()
     cout << "HashMap Destructor Called\n";
 }
 
-// ===================== Hash_map Methods =====================
+//  Hash_map Methods
 template <typename V, typename K>
 int Hash_map<V, K>::hashfunction(K key)
 {
@@ -255,6 +248,13 @@ void Hash_map<V, K>::Hashinsert(const V &value, K key, int capacity)
     cout << "Percentage => " << percentage << "\n";
     int index = hashfunction(key);
     lists[index].Linkedinsert(value, key);
+}
+
+template <typename V, typename K>
+bool Hash_map<V, K>::HashExists(const V &value, K key)
+{
+    int index = hashfunction(key);
+    return lists[index].LinkedExists(key, value);
 }
 
 template <typename V, typename K>

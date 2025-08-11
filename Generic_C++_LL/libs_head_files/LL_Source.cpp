@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-// ============ Node Constructor =============
+//  Node Constructor
 template <typename V>
 Node<V>::Node(V value)
 {
@@ -10,17 +10,17 @@ Node<V>::Node(V value)
     next = nullptr;
 }
 
-// ============ LL Constructor =============
+//  link Constructor
 template <typename V>
-LL<V>::LL()
+link<V>::link()
 {
     head = nullptr;
     size = 0;
 }
 
-// ============ Insert at Beginning =========
+//  Insert at Beginning
 template <typename V>
-void LL<V>::ins_beg(V value)
+void link<V>::ins_beg(V value)
 {
     Node<V> *newNode = new Node<V>(value);
     size++;
@@ -33,9 +33,9 @@ void LL<V>::ins_beg(V value)
     head = newNode;
 }
 
-// ============ Insert at Middle ============
+//  Insert at Middle
 template <typename V>
-void LL<V>::ins_mid(V value, int place)
+void link<V>::ins_mid(V value, int place)
 {
     if (place > size || place < 0)
     {
@@ -58,9 +58,9 @@ void LL<V>::ins_mid(V value, int place)
     size++;
 }
 
-// ============ Insert at End ===============
+//  Insert at End
 template <typename V>
-void LL<V>::ins_end(V value)
+void link<V>::ins_end(V value)
 {
     Node<V> *newNode = new Node<V>(value);
     size++;
@@ -77,9 +77,9 @@ void LL<V>::ins_end(V value)
     ptr->next = newNode;
 }
 
-// ============ Delete from Beginning ========
+//  Delete from Beginning
 template <typename V>
-void LL<V>::del_beg()
+void link<V>::del_beg()
 {
     if (head == nullptr)
     {
@@ -92,9 +92,9 @@ void LL<V>::del_beg()
     size--;
 }
 
-// ============ Delete by Value (Middle) =====
+//  Delete by Value (Middle)
 template <typename V>
-void LL<V>::del_mid(V value)
+void link<V>::del_mid(V value)
 {
     if (head == nullptr)
     {
@@ -126,9 +126,9 @@ void LL<V>::del_mid(V value)
     cout << "Value not found in Linked List\n";
 }
 
-// ============ Delete from End ===============
+//  Delete from End
 template <typename V>
-void LL<V>::del_end()
+void link<V>::del_end()
 {
     if (head == nullptr)
     {
@@ -152,9 +152,9 @@ void LL<V>::del_end()
     size--;
 }
 
-// ============ Display Linked List ============
+//  Display Linked List
 template <typename V>
-void LL<V>::dis()
+void link<V>::dis()
 {
     if (head == nullptr)
     {
@@ -171,16 +171,23 @@ void LL<V>::dis()
     cout << "nullptr";
 }
 
-// ============ Get Size ========================
+//  Get Size
 template <typename V>
-int LL<V>::getsize()
+int link<V>::getsize()
 {
     return this->size;
 }
 
-// ============ Destructor ======================
+//  Get Size
 template <typename V>
-LL<V>::~LL()
+V link<V>::get_beg_val()
+{
+    return head->val;
+}
+
+//  Destructor
+template <typename V>
+link<V>::~link()
 {
     while (head)
     {
@@ -189,8 +196,40 @@ LL<V>::~LL()
         delete temp;
     }
 }
-
-// ============ Template Instantiations =========
-// Add this at the bottom for all types you use
-template class LL<int>;
-template class Node<int>;
+// Copy constructor
+template <typename V>
+link<V>::link(const link<V> &other)
+{
+    head = nullptr;
+    size = 0;
+    Node<V> *current = other.head;
+    while (current)
+    {
+        ins_end(current->val);
+        current = current->next;
+    }
+}
+// Assignment Operator
+template <typename V>
+link<V> &link<V>::operator=(const link<V> &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+    while (head)
+    {
+        Node<V> *temp = head;
+        head = head->next;
+        delete temp;
+    }
+    head = nullptr;
+    size = 0;
+    Node<V> *current = other.head;
+    while (current)
+    {
+        ins_end(current->val);
+        current = current->next;
+    }
+    return *this;
+}

@@ -31,7 +31,7 @@ public:
     LL();
     ~LL();
 
-    bool LinkedExists(K key);
+    bool LinkedExists(K key, V value);
     void Linkedinsert(V data, K key);
     void Linkedremove(V data, K key);
     void Linkedsearch(V data, K key);
@@ -65,6 +65,7 @@ public:
     void HashdisplayAll();
     int Hashcount();
     bool Hashempty();
+    bool HashExists(const V &value, K key);
     void Hashclear();
 };
 
