@@ -14,8 +14,10 @@ void reverse_inplace(char *s);
 int is_palindrome(const char *s);
 int count_words(const char *s);
 void tokenizer(const char *str);
-char *trail_spaces(char *a);
+char *trail_spaces(char *a, bool nextline = false);
 int find_occur(const char *s, const char *word);
 char *replace_key_value(char *str, const char *obj);
 int my_strncmp(const char *s1, const char *s2, int n);
+int find_keyword_line_index(const char *full_code, const char *keyword);
+
 #endif

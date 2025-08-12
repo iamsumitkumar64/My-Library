@@ -116,26 +116,15 @@ int my_strstr_index(const char *haystack, const char *needle)
         }
         if (needle[j] == '\0')
         {
-            // Found keyword — now look for delimiter
-            while (haystack[i] != '\0')
+            while (haystack[i] != ':')
             {
-                // Check for arrow format
-                if (haystack[i] == '-' && haystack[i + 1] == '>')
-                {
-                    return i + 2; // Position right after "->"
-                }
-                // Check for colon format
-                if (haystack[i] == ':')
-                {
-                    return i + 1; // Position right after ":"
-                }
                 i++;
             }
-            return -1; // Found keyword but no valid delimiter
+            return i + 1;
         }
         i++;
     }
-    return -1; // Keyword not found
+    return -1;
 }
 
 void reverse_inplace(char *s)
@@ -188,30 +177,40 @@ void tokenizer(const char *str)
             token[j++] = str[i++];
         }
         token[j] = '\0';
-        cout << "\n\n\n"
-             << token << "\n\n\n";
+        cout << "\n"
+             << token << "\n";
         if (str[i] == ',')
         {
             i++;
         }
     }
 }
-
-char *trail_spaces(char *a)
+char *trail_spaces(char *a, bool nextline)
 {
     int i = 0, j = 0;
     int len = size_tmy_strlen(a);
     char *b = new char[len + 1];
     while (a[i] != '\0')
     {
-        if ((a[i] == ' ' && a[i + 1] != '\0' && a[i + 1] == ' ') || a[i] == '\n' || a[i] == '\t')
+        if (!nextline)
         {
-            i++;
-            continue;
+            if ((a[i] == ' ' && a[i + 1] != '\0' && a[i + 1] == ' ') || a[i] == '\n' || a[i] == '\t')
+            {
+                i++;
+                continue;
+            }
+        }
+        else
+        {
+            if ((a[i] == ' ' && a[i + 1] != '\0' && a[i + 1] == ' ') || a[i] == '\t')
+            {
+                i++;
+                continue;
+            }
         }
         b[j++] = a[i++];
     }
-    if (b[j - 1] == ' ')
+    if (j > 0 && b[j - 1] == ' ')
     {
         b[j - 1] = '\0';
     }
@@ -309,4 +308,35 @@ int my_strncmp(const char *s1, const char *s2, int n)
         }
     }
     return 0;
+}
+int find_keyword_line_index(const char *full_code, const char *keyword)
+{
+    int i = 0;
+    int keyword_len = size_tmy_strlen(keyword);
+    while (full_code[i] != '\0')
+    {
+        int line_start = i;
+        bool matched = true;
+        for (int k = 0; k < keyword_len; k++)
+        {
+            if (full_code[i + k] != keyword[k])
+            {
+                matched = false;
+                break;
+            }
+        }
+        if (matched && full_code[i + keyword_len] == '-' && full_code[i + keyword_len + 1] == '>')
+        {
+            return line_start;
+        }
+        while (full_code[i] != '\0' && full_code[i] != '\n')
+        {
+            i++;
+        }
+        if (full_code[i] == '\n')
+        {
+            i++;
+        }
+    }
+    return -1;
 }
