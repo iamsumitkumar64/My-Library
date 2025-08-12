@@ -309,34 +309,3 @@ int my_strncmp(const char *s1, const char *s2, int n)
     }
     return 0;
 }
-int find_keyword_line_index(const char *full_code, const char *keyword)
-{
-    int i = 0;
-    int keyword_len = size_tmy_strlen(keyword);
-    while (full_code[i] != '\0')
-    {
-        int line_start = i;
-        bool matched = true;
-        for (int k = 0; k < keyword_len; k++)
-        {
-            if (full_code[i + k] != keyword[k])
-            {
-                matched = false;
-                break;
-            }
-        }
-        if (matched && full_code[i + keyword_len] == '-' && full_code[i + keyword_len + 1] == '>')
-        {
-            return line_start;
-        }
-        while (full_code[i] != '\0' && full_code[i] != '\n')
-        {
-            i++;
-        }
-        if (full_code[i] == '\n')
-        {
-            i++;
-        }
-    }
-    return -1;
-}
