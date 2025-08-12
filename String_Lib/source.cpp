@@ -168,6 +168,7 @@ int count_words(const char *s)
 void tokenizer(const char *str)
 {
     int i = 0;
+    cout << "\n\n\n\n";
     while (str[i] != '\0')
     {
         char token[100] = "";
@@ -178,12 +179,13 @@ void tokenizer(const char *str)
         }
         token[j] = '\0';
         cout << "\n"
-             << token << "\n";
+             << token;
         if (str[i] == ',')
         {
             i++;
         }
     }
+    cout << "\n\n\n\n";
 }
 char *trail_spaces(char *a, bool nextline)
 {
