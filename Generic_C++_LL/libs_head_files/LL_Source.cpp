@@ -233,3 +233,63 @@ link<V> &link<V>::operator=(const link<V> &other)
     }
     return *this;
 }
+
+// Script Operator
+template <typename V>
+V &link<V>::operator[](int index)
+{
+    if (index < 0 || index >= this->size)
+    {
+        throw out_of_range("Index is out of bounds");
+    }
+    Node<V> *ptr = head;
+    for (int i = 0; i < index; ++i)
+    {
+        ptr = ptr->next;
+    }
+    return ptr->val;
+}
+
+// Pre-increment
+template <typename V>
+link<V> &link<V>::operator++()
+{
+    Node<V> *temp = head;
+    while (temp)
+    {
+        (temp->val)++;
+        temp = temp->next;
+    }
+    return *this;
+}
+
+// Pre-decrement
+template <typename V>
+link<V> &link<V>::operator--()
+{
+    Node<V> *temp = head;
+    while (temp)
+    {
+        (temp->val)--;
+        temp = temp->next;
+    }
+    return *this;
+}
+
+// Script Increment
+template <typename V>
+link<V> link<V>::operator++(int)
+{
+    link<V> temp(*this);
+    ++(*this);
+    return temp;
+}
+
+// Script Decrement
+template <typename V>
+link<V> link<V>::operator--(int)
+{
+    link<V> temp(*this);
+    --(*this);
+    return temp;
+}

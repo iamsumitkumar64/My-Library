@@ -26,6 +26,11 @@ public:
     link();                                   // Constructor
     link(const link<V> &other);               // Copy Constructor
     link<V> &operator=(const link<V> &other); // Assignment Operator Overload
+    V &operator[](int index);                 // Script Operator Overload
+    link<V> &operator++();                    // Pre-Increment
+    link<V> &operator--();                    // Pre-Decrement
+    link<V> operator++(int);                  // Script Increment
+    link<V> operator--(int);                  // Script Decrement
     ~link();                                  // Destructor
 
     void ins_beg(V value);            // Insert at beginning
